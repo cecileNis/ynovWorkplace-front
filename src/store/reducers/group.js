@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const groupsSlice = createSlice({
+const groupSlice = createSlice({
   name: "group",
   initialState: {
     groups: [],
@@ -8,12 +8,12 @@ const groupsSlice = createSlice({
   reducers: {
     setGroups: (state, action) => {
       console.log(action.payload);
-      state.groups = [...state.groups, action.payload];
+      state.groups = [...state.groups, ...action.payload];
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setGroups } = groupsSlice.actions;
+export const { setGroups } = groupSlice.actions;
 
-export default groupsSlice.reducer;
+export default groupSlice.reducer;

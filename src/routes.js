@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import GuestRoute from "./routes/GuestRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import NewGroup from "./pages/NewGroup";
+import GroupList from "./pages/GroupList";
 
 const Layout = () => (
   <>
@@ -33,8 +34,12 @@ const routes = () => [
         element: <>{PrivateRoute(<User />)}</>,
       },
       {
+        path: "groups",
+        element: <>{<GroupList />}</>,
+      },
+      {
         path: "groups/create",
-        element: <>{<NewGroup />}</>,
+        element: <>{PrivateRoute(<NewGroup />)}</>,
       },
       {
         path: "signIn",

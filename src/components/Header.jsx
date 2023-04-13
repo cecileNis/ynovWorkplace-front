@@ -1,41 +1,39 @@
-import * as React from 'react';
+import * as React from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
-import setLoggedUser from '../store/reducers/auth';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
+import { useSelector, useDispatch } from "react-redux";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import setLoggedUser from "../store/reducers/auth";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
-  const loggedUser = useSelector(state => state.auth.loggedUser);
+  const loggedUser = useSelector((state) => state.auth.loggedUser);
 
-  let pages = { 'Home': '/' };
-  let settings = { 'se connecter': '/logIn', "s'enregistrer": "/signIn" };
+  let pages = { Home: "/", Groupes: "/groups" };
+  let settings = { "se connecter": "/logIn", "s'enregistrer": "/signIn" };
 
   if (loggedUser) {
-    pages = { 'Home': '/', 'User List': '/userList' };
-    settings = { 'Profile': '/Profile', 'se déconnecter': '/logIn' };
+    pages = { ...pages, "User List": "/userList" };
+    settings = { Profile: "/Profile", "se déconnecter": "/logIn" };
   }
-
 
   const dispatch = useDispatch();
 
   const disconnect = () => {
-    localStorage.removeItem('TOKEN');
-    dispatch(setLoggedUser(null))
+    localStorage.removeItem("TOKEN");
+    dispatch(setLoggedUser(null));
   };
 
   const handleOpenNavMenu = (event) => {
@@ -64,18 +62,18 @@ function Header() {
             href="/"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             Ynov Workplace
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -90,35 +88,40 @@ function Header() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: "block", md: "none" },
               }}
             >
               {Object.entries(pages).map(([key, link]) => (
-                <MenuItem key={key} onClick={handleCloseNavMenu} component={RouterLink} to={link}>
+                <MenuItem
+                  key={key}
+                  onClick={handleCloseNavMenu}
+                  component={RouterLink}
+                  to={link}
+                >
                   <Typography textAlign="center">{key}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {Object.entries(pages).map(([key, link]) => (
               <Button
                 key={key}
                 component={RouterLink}
                 to={link}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: "white", display: "block" }}
               >
                 {key}
               </Button>
@@ -132,34 +135,45 @@ function Header() {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {Object.entries(settings).map(([key, link]) => (
-                key === 'se déconnecter' ? (
-                  <MenuItem key={key} component={RouterLink} to={link} onClick={() => {
-                    handleCloseUserMenu();
-                    disconnect();
-                  }}>
+              {Object.entries(settings).map(([key, link]) =>
+                key === "se déconnecter" ? (
+                  <MenuItem
+                    key={key}
+                    component={RouterLink}
+                    to={link}
+                    onClick={() => {
+                      handleCloseUserMenu();
+                      disconnect();
+                    }}
+                  >
                     <Typography textAlign="center">{key}</Typography>
                   </MenuItem>
                 ) : (
-                  <MenuItem key={key} component={RouterLink} to={link} onClick={handleCloseUserMenu}>
+                  <MenuItem
+                    key={key}
+                    component={RouterLink}
+                    to={link}
+                    onClick={handleCloseUserMenu}
+                  >
                     <Typography textAlign="center">{key}</Typography>
-                  </MenuItem>)
-              ))}
+                  </MenuItem>
+                )
+              )}
             </Menu>
           </Box>
         </Toolbar>

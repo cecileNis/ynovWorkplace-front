@@ -1,14 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./reducers/user";
 import authSlice from "./reducers/auth";
-import groupsSlice from "./reducers/groups";
+import groupSlice from "./reducers/group";
 import toastSlice from "./reducers/toast";
+import loadingSlice from "./reducers/loading";
 
 export const store = configureStore({
   reducer: {
     user: userSlice,
     auth: authSlice,
-    groups: groupsSlice,
+    group: groupSlice,
     toast: toastSlice,
+    loading: loadingSlice,
   },
 });
