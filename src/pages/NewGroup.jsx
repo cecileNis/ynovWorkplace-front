@@ -12,7 +12,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setLoggedUser } from "../store/reducers/auth";
 import { useNavigate } from "react-router-dom";
-import { setGroups } from "../store/reducers/groups";
+import { setGroups } from "../store/reducers/group";
 import { setToast } from "../store/reducers/toast";
 
 const NewGroup = () => {
@@ -62,7 +62,7 @@ const NewGroup = () => {
         py: 5,
       }}
     >
-      <Typography component="h1" variant="h3" gutterBottom>
+      <Typography component="h1" variant="h4" gutterBottom>
         Je créé mon groupe
       </Typography>
       <Box
