@@ -1,12 +1,13 @@
-import { Outlet } from 'react-router-dom';
-import NewUser from './pages/NewUser'
-import Login from './pages/Login'
-import Header from './components/Header';
-import UserList from './pages/UserList';
-import User from './pages/User';
-import Home from './pages/Home';
-import GuestRoute from './routes/GuestRoute';
-import PrivateRoute from './routes/PrivateRoute';
+import { Outlet } from "react-router-dom";
+import NewUser from "./pages/NewUser";
+import Login from "./pages/Login";
+import Header from "./components/Header";
+import UserList from "./pages/UserList";
+import User from "./pages/User";
+import Home from "./pages/Home";
+import GuestRoute from "./routes/GuestRoute";
+import PrivateRoute from "./routes/PrivateRoute";
+import NewGroup from "./pages/NewGroup";
 
 const Layout = () => (
   <>
@@ -29,18 +30,22 @@ const routes = () => [
       },
       {
         path: "user/:userId",
-        element: <>{PrivateRoute(<User />)}</>
+        element: <>{PrivateRoute(<User />)}</>,
+      },
+      {
+        path: "groups/create",
+        element: <>{<NewGroup />}</>,
       },
       {
         path: "signIn",
-        element: <>{GuestRoute(<NewUser />)}</>
+        element: <>{GuestRoute(<NewUser />)}</>,
       },
       {
         path: "logIn",
-        element: <>{GuestRoute(<Login />)}</>
-      }
-    ]
-  }
+        element: <>{GuestRoute(<Login />)}</>,
+      },
+    ],
+  },
 ];
 
 export default routes;
