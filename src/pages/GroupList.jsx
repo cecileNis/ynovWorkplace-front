@@ -27,7 +27,7 @@ const GroupList = () => {
         }}
       >
         {groups.map((group) => (
-          <Paper sx={{ p: 2 }}>
+          <Paper key={group["@id"]} sx={{ p: 2 }}>
             <Typography gutterBottom component="p" variant="h6">
               {group.name}
             </Typography>
