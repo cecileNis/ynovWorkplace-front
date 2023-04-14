@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Button,
-  Container,
-  TextField,
-  Typography,
-  Link,
-} from "@mui/material";
+import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { API_URL } from "../conf/api.conf";
 import axios from "axios";
 import { useDispatch } from "react-redux";
@@ -49,6 +42,7 @@ const NewGroup = () => {
       );
     } catch (error) {
       localStorage.removeItem("TOKEN");
+      console.log(error);
       dispatch(setLoggedUser(null));
       dispatch(setToast({ message: error.message, severity: "error" }));
       navigate("/logIn");
