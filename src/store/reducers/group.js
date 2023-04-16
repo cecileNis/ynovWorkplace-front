@@ -14,7 +14,7 @@ const groupSlice = createSlice({
       state.groups = [...state.groups, ...payload];
     },
     deleteFromGroups: (state, action) => {
-      state.groups = state.groups.filter((group) => group.id !== action.payload.id);
+      state.groups = state.groups.filter((group) => group["@id"] !== action.payload["@id"]);
     },
     setCurrentGroup: (state, action) => {
       state.current = action.payload;
