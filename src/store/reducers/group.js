@@ -19,10 +19,13 @@ const groupSlice = createSlice({
     setCurrentGroup: (state, action) => {
       state.current = action.payload;
     },
+    addMember: (state, action) => {
+      state.current.members = [...state.current.members, action.payload];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setGroups, deleteFromGroups, setCurrentGroup } = groupSlice.actions;
+export const { setGroups, deleteFromGroups, setCurrentGroup, addMember } = groupSlice.actions;
 
 export default groupSlice.reducer;

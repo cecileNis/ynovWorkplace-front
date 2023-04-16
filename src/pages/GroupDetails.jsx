@@ -1,4 +1,4 @@
-import { Button, Container } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 import axios from "axios";
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -9,7 +9,7 @@ import { deleteFromGroups, setCurrentGroup } from "../store/reducers/group";
 import GroupRequestList from "../components/group/GroupRequestList";
 import GroupMemberList from "../components/group/GroupMemberList";
 import GroupThreadList from "../components/group/GroupThreadList";
-import { setRequests } from "../store/reducers/request";
+import { addRequest, setRequests } from "../store/reducers/request";
 import { setThreads } from "../store/reducers/thread";
 
 const retrieveGroup = async (groupId) => {
@@ -76,8 +76,33 @@ const GroupDetails = () => {
     }
   };
 
+  const handleClick = async () => {
+    try {
+      const response = await axios.post(
+        `${API_URL}/api/group_requests`,
+        { targetGroup: group["@id"] },
+        { headers: { Authorization: token } }
+      );
+      console.log(response);
+      if (response.status !== 201) throw new Error(response.statusText);
+      dispatch(addRequest(response.data));
+      dispatch(setToast({ severity: "success", message: "Une demande a été envoyée" }));
+    } catch (e) {
+      dispatch(setToast({ severity: "error", message: e.message }));
+      console.error(e);
+    }
+  };
+
   return (
     <Container maxWidth="xl" sx={{ my: 5 }}>
+      <Typography color="error" variant="body2" mb={2}>
+        Les threads ne s'affiche pas par groupe mais par utilisateur. Et pour qu'un utilisateur voit un thread il doit
+        etre considéré comme abonné à ce thread. L'api ne considère pas le owner du groupe comme abonné à son propre
+        groupe. Il faut donc faire une requête et l'accepter pour voir les threads.
+      </Typography>
+      <Button variant="contained" size="small" onClick={handleClick} sx={{ mr: 2 }}>
+        Faire une requête
+      </Button>
       {loggedUserIsOwner && (
         <>
           <Button variant="contained" color="error" size="small" onClick={handleDelete}>
