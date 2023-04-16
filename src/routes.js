@@ -9,6 +9,7 @@ import GuestRoute from "./routes/GuestRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import NewGroup from "./pages/NewGroup";
 import GroupList from "./pages/GroupList";
+import GroupDetails from "./pages/GroupDetails";
 
 const Layout = () => (
   <>
@@ -40,6 +41,10 @@ const routes = () => [
       {
         path: "groups/create",
         element: <>{PrivateRoute(<NewGroup />)}</>,
+      },
+      {
+        path: "groups/:groupId",
+        element: <>{PrivateRoute(<GroupDetails />)}</>,
       },
       {
         path: "signIn",

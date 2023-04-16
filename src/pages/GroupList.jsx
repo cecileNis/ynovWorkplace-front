@@ -1,7 +1,7 @@
 import { Box, Container, Typography, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import GroupCard from "../components/GroupCard";
+import GroupCard from "../components/group/GroupCard";
 
 const GroupList = () => {
   const navigate = useNavigate();
