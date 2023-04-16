@@ -1,8 +1,11 @@
-import { Box, Container, Paper, Typography, Link } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
+import { Box, Container, Typography, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import GroupCard from "../components/GroupCard";
 
 const GroupList = () => {
+  const navigate = useNavigate();
+  const loggedUser = useSelector((state) => state.auth.loggedUser);
   const groups = useSelector((state) => state.group.groups);
 
   return (
@@ -12,33 +15,24 @@ const GroupList = () => {
         py: 5,
       }}
     >
-      <Typography component="h1" variant="h3" gutterBottom>
-        Groupes
+      <Typography component="h1" variant="h4" sx={{ my: 5 }}>
+        Échangez avec votre communauté
       </Typography>
+      {loggedUser && (
+        <Button onClick={() => navigate("/groups/create")} sx={{ mb: 5 }} variant="contained" size="small">
+          Je crée un groupe de discussion
+        </Button>
+      )}
       <Box
         sx={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
           justifyContent: "space-between",
-          flexWrap: "wrap",
-          gap: 2,
-          "& > *": {
-            flex: "1 1 320px",
-          },
+          gap: 5,
         }}
       >
-        {groups.map((group) => (
-          <Paper key={group["@id"]} sx={{ p: 2 }}>
-            <Typography gutterBottom component="p" variant="h6">
-              {group.name}
-            </Typography>
-            <Typography gutterBottom>{group.description}</Typography>
-            <Link
-              component={RouterLink}
-              to={`/groups/${group["@id"].split("/")[3]}`}
-            >
-              Détails
-            </Link>
-          </Paper>
+        {groups.map((group, i) => (
+          <GroupCard key={group["@id"]} group={group} img={`https://source.unsplash.com/collection/${i}/200x200`} />
         ))}
       </Box>
     </Container>
