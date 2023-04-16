@@ -22,6 +22,6 @@ const PrivateRoute = (Component) => {
   }, []);
 
   if (loading) return <Loader />;
-  return loggedUser ? Component : <Navigate to="/login" />;
+  return loggedUser ? Component : <Navigate to="/logIn" />;
 };
 export default PrivateRoute;
