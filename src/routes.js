@@ -9,6 +9,7 @@ import GuestRoute from "./routes/GuestRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import NewGroup from "./pages/NewGroup";
 import GroupList from "./pages/GroupList";
+import NotFound from "./pages/NotFound";
 
 const Layout = () => (
   <>
@@ -49,6 +50,11 @@ const routes = () => [
         path: "logIn",
         element: <>{GuestRoute(<Login />)}</>,
       },
+      {
+        path: "*",
+        element: <NotFound/>,
+      },
+      
     ],
   },
 ];
