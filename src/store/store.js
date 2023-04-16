@@ -4,6 +4,8 @@ import authSlice from "./reducers/auth";
 import groupSlice from "./reducers/group";
 import toastSlice from "./reducers/toast";
 import loadingSlice from "./reducers/loading";
+import requestSlice from "./reducers/request";
+import threadSlice from "./reducers/thread";
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +14,7 @@ export const store = configureStore({
     group: groupSlice,
     toast: toastSlice,
     loading: loadingSlice,
+    request: requestSlice,
+    thread: threadSlice,
   },
 });

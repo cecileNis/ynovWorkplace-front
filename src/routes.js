@@ -9,6 +9,8 @@ import GuestRoute from "./routes/GuestRoute";
 import PrivateRoute from "./routes/PrivateRoute";
 import NewGroup from "./pages/NewGroup";
 import GroupList from "./pages/GroupList";
+import GroupDetails from "./pages/GroupDetails";
+import NewThread from "./pages/NewThread";
 import NotFound from "./pages/NotFound";
 
 const Layout = () => (
@@ -43,6 +45,14 @@ const routes = () => [
         element: <>{PrivateRoute(<NewGroup />)}</>,
       },
       {
+        path: "groups/:groupId",
+        element: <>{PrivateRoute(<GroupDetails />)}</>,
+      },
+      {
+        path: "groups/:groupId/new-thread",
+        element: <>{PrivateRoute(<NewThread />)}</>,
+      },
+      {
         path: "signIn",
         element: <>{GuestRoute(<NewUser />)}</>,
       },
@@ -52,9 +62,8 @@ const routes = () => [
       },
       {
         path: "*",
-        element: <NotFound/>,
+        element: <NotFound />,
       },
-      
     ],
   },
 ];
