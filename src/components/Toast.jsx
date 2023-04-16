@@ -6,9 +6,8 @@ import { setToast } from "../store/reducers/toast";
 const Toast = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.toast.data);
-
   React.useEffect(() => {
-    setTimeout(() => dispatch(setToast(null)), 5000);
+    setTimeout(() => dispatch(setToast()), 5000);
   }, [data]);
 
   return (
@@ -18,6 +17,7 @@ const Toast = () => {
           position: "fixed",
           top: 2,
           right: 2,
+          zIndex: 1000,
         }}
         severity={data?.severity}
       >
