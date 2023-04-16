@@ -11,6 +11,7 @@ import NewGroup from "./pages/NewGroup";
 import GroupList from "./pages/GroupList";
 import GroupDetails from "./pages/GroupDetails";
 import NewThread from "./pages/NewThread";
+import NotFound from "./pages/NotFound";
 
 const Layout = () => (
   <>
@@ -58,6 +59,10 @@ const routes = () => [
       {
         path: "logIn",
         element: <>{GuestRoute(<Login />)}</>,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
       },
     ],
   },
