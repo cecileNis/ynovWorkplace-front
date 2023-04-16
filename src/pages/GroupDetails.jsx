@@ -5,9 +5,41 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../conf/api.conf";
 import { useDispatch, useSelector } from "react-redux";
 import { setToast } from "../store/reducers/toast";
-import { deleteFromGroups } from "../store/reducers/group";
-import GroupMembers from "../components/group/GroupMembers";
+import { deleteFromGroups, setCurrentGroup } from "../store/reducers/group";
 import GroupRequestList from "../components/group/GroupRequestList";
+import GroupMemberList from "../components/group/GroupMemberList";
+import GroupThreadList from "../components/group/GroupThreadList";
+import { setRequests } from "../store/reducers/request";
+import { setThreads } from "../store/reducers/thread";
+
+const retrieveGroup = async (groupId) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/groups/${groupId}`);
+    return response.data;
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const retrieveGroupRequests = async (groupId) => {
+  try {
+    const response = await axios.get(`${API_URL}/api/groups/${groupId}/requests`);
+    return response.data["hydra:member"].filter(({ status }) => status === 0);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const retrieveGroupThreads = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/api/threads`, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("TOKEN")}` },
+    });
+    return response.data["hydra:member"];
+  } catch (e) {
+    console.error(e);
+  }
+};
 
 const GroupDetails = () => {
   const { groupId } = useParams();
@@ -15,7 +47,18 @@ const GroupDetails = () => {
   const navigate = useNavigate();
   const token = `Bearer ${localStorage.getItem("TOKEN")}`;
 
-  const group = useSelector((state) => state.group.groups).find((group) => group["@id"] === `/api/groups/${groupId}`);
+  React.useEffect(() => {
+    retrieveGroup(groupId).then((group) => dispatch(setCurrentGroup(group)));
+    retrieveGroupRequests(groupId).then((group) => dispatch(setRequests(group)));
+    retrieveGroupThreads().then((thread) =>
+      dispatch(setThreads(thread.filter(({ relatedGroup }) => relatedGroup === `/api/groups/${groupId}`)))
+    );
+  }, [groupId]);
+
+  const group = useSelector((state) => state.group.current);
+  const requests = useSelector((state) => state.request.requests);
+  const threads = useSelector((state) => state.thread.threads);
+
   const loggedUser = useSelector((state) => state.auth.loggedUser);
   const loggedUserIsOwner =
     loggedUser?.id !== undefined && group?.owner !== undefined && group?.owner === `/api/users/${loggedUser.id}`;
@@ -34,16 +77,17 @@ const GroupDetails = () => {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" sx={{ my: 5 }}>
       {loggedUserIsOwner && (
         <>
           <Button variant="contained" color="error" size="small" onClick={handleDelete}>
             Supprimer le groupe
           </Button>
-          <GroupRequestList />
+          <GroupRequestList requests={requests} />
         </>
       )}
-      <GroupMembers />
+      <GroupMemberList members={group.members} />
+      <GroupThreadList threads={threads} />
     </Container>
   );
 };

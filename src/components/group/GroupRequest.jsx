@@ -1,20 +1,19 @@
-import { IconButton, Box } from "@mui/material";
+import { IconButton, Paper } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import { useDispatch } from "react-redux";
 import { setToast } from "../../store/reducers/toast";
 import axios from "axios";
 
 import { API_URL } from "../../conf/api.conf";
-import UserCard from "../UserCard";
 
-const GroupRequest = ({ user, img, requestId }) => {
+const GroupRequest = ({ request }) => {
+  console.log(request);
   const dispatch = useDispatch();
-
   const acceptRequest = async () => {
     try {
       const token = `Bearer ${localStorage.getItem("TOKEN")}`;
       const response = await axios.post(
-        `${API_URL}/api/group_requests/${requestId}/accept`,
+        `${API_URL}/api/group_requests/${request.id}/accept`,
         {},
         { headers: { Authorization: token } }
       );
@@ -26,25 +25,12 @@ const GroupRequest = ({ user, img, requestId }) => {
   };
 
   return (
-    <Box
-      sx={{
-        position: "relative",
-      }}
-    >
-      <UserCard user={user} img={img} />
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: "0",
-          right: "0",
-          p: 1,
-        }}
-      >
-        <IconButton onClick={acceptRequest}>
-          <CheckIcon />
-        </IconButton>
-      </Box>
-    </Box>
+    <Paper sx={{ display: "flex", justifyContent: "space-between", p: 1, mb: 2 }}>
+      {request.targetUser}
+      <IconButton color="success" onClick={acceptRequest}>
+        <CheckIcon sx={{ fontSize: "16px" }} />
+      </IconButton>
+    </Paper>
   );
 };
 

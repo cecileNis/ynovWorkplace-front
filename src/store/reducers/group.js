@@ -4,6 +4,7 @@ const groupSlice = createSlice({
   name: "group",
   initialState: {
     groups: [],
+    current: { members: [] },
   },
   reducers: {
     setGroups: (state, action) => {
@@ -15,10 +16,13 @@ const groupSlice = createSlice({
     deleteFromGroups: (state, action) => {
       state.groups = state.groups.filter((group) => group.id !== action.payload.id);
     },
+    setCurrentGroup: (state, action) => {
+      state.current = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { setGroups, deleteFromGroups } = groupSlice.actions;
+export const { setGroups, deleteFromGroups, setCurrentGroup } = groupSlice.actions;
 
 export default groupSlice.reducer;
