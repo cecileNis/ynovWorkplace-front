@@ -62,7 +62,7 @@ import PrivateRoute from './routes/PrivateRoute';
   }
 ]);*/
 
-const url = "http://82.65.6.187:8002"
+const url = "https://ynov-workplace.osc-fr1.scalingo.io"
 
 async function retrieveUsers() {
   try {
@@ -82,8 +82,8 @@ async function retrieveLoggedUser() {
     console.log(loggedUser.data);
     let user = loggedUser.data
     console.log(user);
-    let userLogged = { nickname: user.nickname, id: user.id }
-    store.dispatch(setLoggedUser(userLogged))
+    //let userLogged = { nickname: user.nickname, id: user.id }
+    store.dispatch(setLoggedUser(user))
   } catch (e) {
   }
 

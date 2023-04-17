@@ -7,6 +7,7 @@ import User from './pages/User';
 import Home from './pages/Home';
 import GuestRoute from './routes/GuestRoute';
 import PrivateRoute from './routes/PrivateRoute';
+import Profile from './pages/Profile';
 
 const Layout = () => (
   <>
@@ -38,6 +39,10 @@ const routes = () => [
       {
         path: "logIn",
         element: <>{GuestRoute(<Login />)}</>
+      },
+      {
+        path: "profile",
+        element: <Profile />
       }
     ]
   }

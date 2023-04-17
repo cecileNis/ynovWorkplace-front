@@ -9,7 +9,7 @@ import { setLoggedUser } from '../store/reducers/auth';
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const url = "http://82.65.6.187:8002"
+  const url = "https://ynov-workplace.osc-fr1.scalingo.io"
   const dispatch = useDispatch()
   const navigate = useNavigate();
 
@@ -24,9 +24,8 @@ function Login() {
       console.log(loggedUser.data);
       let user = loggedUser.data
       console.log(user);
-      let userLogged = { nickname: user.nickname, id: user.id}
-      dispatch(setLoggedUser(userLogged))
-      navigate('/userList')
+      dispatch(setLoggedUser(user))
+      navigate('/profile')
 
     } catch(e) {
       console.log(e);
