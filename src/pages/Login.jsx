@@ -37,10 +37,10 @@ function Login() {
       console.log(loggedUser.data);
       let user = loggedUser.data;
       console.log(user);
-      let userLogged = { nickname: user.nickname, id: user.id };
-      dispatch(setLoggedUser(userLogged));
-      navigate("/userList");
-    } catch (e) {
+      dispatch(setLoggedUser(user))
+      navigate('/profile')
+
+    } catch(e) {
       console.log(e);
     }
   };

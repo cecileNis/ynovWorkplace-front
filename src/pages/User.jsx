@@ -5,7 +5,7 @@ function User() {
 
   /**
    * Waiting API connexion, we use the data available on the api docs
-   * http://82.65.6.187:8002/api/docs
+   * https://ynov-workplace.osc-fr1.scalingo.io/api/docs
    * /api/user/:id
    */
   let apiResponse = {

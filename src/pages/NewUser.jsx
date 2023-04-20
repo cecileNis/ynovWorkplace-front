@@ -3,6 +3,9 @@ import { API_URL } from "../conf/api.conf";
 
 import React, { useState } from "react";
 import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { setLoggedUser } from '../store/reducers/auth';
+import { useNavigate } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -20,6 +23,8 @@ function NewUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
   const url = API_URL + "/api/users";
 
   const theme = createTheme();
@@ -34,6 +39,10 @@ function NewUser() {
         },
       });
       console.log(user);
+      let token = await axios.post(`${url}/auth`, {email, password});
+      localStorage.setItem("TOKEN", token.data.token)
+      dispatch(setLoggedUser(user.data))
+      navigate('/profile')
     } catch (e) {
       console.log(e);
     }
