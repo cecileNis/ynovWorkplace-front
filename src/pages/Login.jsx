@@ -24,14 +24,15 @@ function Login() {
 
   const theme = createTheme();
 
-  const onLogin = async () => {
+  const onLogin = async (event) => {
+    event.preventDefault();
     try {
       console.log(email);
       console.log(password);
       let token = await axios.post(`${url}/auth`, { email, password });
       localStorage.setItem("TOKEN", token.data.token);
       console.log(token);
-      let loggedUser = await axios.get(`${url}/api/users/1/info`, {
+      let loggedUser = await axios.get(`${url}/api/users/9/info`, {
         headers: { Authorization: `Bearer ${token.data.token}` },
       });
       console.log(loggedUser.data);
@@ -40,7 +41,7 @@ function Login() {
       dispatch(setLoggedUser(user))
       navigate('/profile')
 
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   };
@@ -97,7 +98,7 @@ function Login() {
               </Button>
               <Grid container>
                 <Grid item>
-                  <Link href="/signIn" variant="body2">
+                  <Link to="/signIn" variant="body2">
                     {"Vous n'avez pas de compte? enregistrez-vous ici"}
                   </Link>
                 </Grid>
@@ -105,7 +106,7 @@ function Login() {
             </Box>
           </Box>
         </Container>
-    </ThemeProvider>
+      </ThemeProvider>
     </>
   );
 }

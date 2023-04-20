@@ -29,7 +29,8 @@ function NewUser() {
 
   const theme = createTheme();
 
-  const onCreate = async () => {
+  const onCreate = async (event) => {
+    event.preventDefault();
     try {
       let payload = { email, plainPassword: password, nickname };
       console.log(payload);
@@ -50,30 +51,6 @@ function NewUser() {
 
   return (
     <>
-      {/* <TextField
-        id="outlined-basic"
-        label="Email"
-        variant="outlined"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        id="outlined-basic"
-        label="Nickname"
-        variant="outlined"
-        value={nickname}
-        onChange={(e) => setNickname(e.target.value)}
-      />
-      <TextField
-        id="outlined-basic"
-        label="Password"
-        variant="outlined"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button onClick={onCreate}>S'inscrire</Button> */}
-
       <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
