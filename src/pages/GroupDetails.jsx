@@ -9,7 +9,7 @@ import { deleteFromGroups, setCurrentGroup } from "../store/reducers/group";
 import GroupRequestList from "../components/group/GroupRequestList";
 import GroupMemberList from "../components/group/GroupMemberList";
 import GroupThreadList from "../components/group/GroupThreadList";
-import { setRequests } from "../store/reducers/request";
+import { setRequests, addRequest } from "../store/reducers/request";
 import { setThreads } from "../store/reducers/thread";
 import GroupAlertDialog from "../components/GroupAlertDialog";
 
