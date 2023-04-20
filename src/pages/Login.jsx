@@ -1,28 +1,41 @@
-import {Button, TextField} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import { Button, TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch } from 'react-redux';
-import { setLoggedUser } from '../store/reducers/auth';
-
+import { useDispatch } from "react-redux";
+import { setLoggedUser } from "../store/reducers/auth";
+import { API_URL } from "../conf/api.conf";
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Avatar from '@mui/material/Avatar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const url = "https://ynov-workplace.osc-fr1.scalingo.io"
-  const dispatch = useDispatch()
+  const url = API_URL;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const theme = createTheme();
 
   const onLogin = async () => {
     try {
-      console.log(email)
+      console.log(email);
       console.log(password);
-      let token = await axios.post(`${url}/auth`, {email, password});
-      localStorage.setItem("TOKEN", token.data.token)
+      let token = await axios.post(`${url}/auth`, { email, password });
+      localStorage.setItem("TOKEN", token.data.token);
       console.log(token);
-      let loggedUser = await axios.get(`${url}/api/users/1/info`, { headers: { Authorization: `Bearer ${token.data.token}`}})
+      let loggedUser = await axios.get(`${url}/api/users/1/info`, {
+        headers: { Authorization: `Bearer ${token.data.token}` },
+      });
       console.log(loggedUser.data);
-      let user = loggedUser.data
+      let user = loggedUser.data;
       console.log(user);
       dispatch(setLoggedUser(user))
       navigate('/profile')
@@ -30,15 +43,70 @@ function Login() {
     } catch(e) {
       console.log(e);
     }
-  }
+  };
 
   return (
     <>
-      <TextField id="outlined-basic" label="Email" variant="outlined" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <TextField id="outlined-basic" label="Password" variant="outlined" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <Button onClick={onLogin}>Se connecter</Button>
+      <ThemeProvider theme={theme}>
+        <Container component="main" maxWidth="xs">
+          <CssBaseline />
+          <Box
+            sx={{
+              marginTop: 8,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Connexion
+            </Typography>
+            <Box component="form" onSubmit={onLogin} noValidate sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Mot de passe"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Se connecter
+              </Button>
+              <Grid container>
+                <Grid item>
+                  <Link href="/signIn" variant="body2">
+                    {"Vous n'avez pas de compte? enregistrez-vous ici"}
+                  </Link>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
+        </Container>
+    </ThemeProvider>
     </>
-
   );
 }
 
