@@ -23,7 +23,9 @@ const retrieveGroup = async (groupId) => {
 
 const retrieveGroupRequests = async (groupId) => {
   try {
-    const response = await axios.get(`${API_URL}/api/groups/${groupId}/requests`);
+    const response = await axios.get(
+      `${API_URL}/api/groups/${groupId}/requests`
+    );
     return response.data["hydra:member"].filter(({ status }) => status === 0);
   } catch (e) {
     console.error(e);
@@ -49,9 +51,17 @@ const GroupDetails = () => {
 
   React.useEffect(() => {
     retrieveGroup(groupId).then((group) => dispatch(setCurrentGroup(group)));
-    retrieveGroupRequests(groupId).then((group) => dispatch(setRequests(group)));
+    retrieveGroupRequests(groupId).then((group) =>
+      dispatch(setRequests(group))
+    );
     retrieveGroupThreads().then((thread) =>
-      dispatch(setThreads(thread.filter(({ relatedGroup }) => relatedGroup === `/api/groups/${groupId}`)))
+      dispatch(
+        setThreads(
+          thread.filter(
+            ({ relatedGroup }) => relatedGroup === `/api/groups/${groupId}`
+          )
+        )
+      )
     );
   }, [groupId]);
 
@@ -61,14 +71,28 @@ const GroupDetails = () => {
 
   const loggedUser = useSelector((state) => state.auth.loggedUser);
   const loggedUserIsOwner =
-    loggedUser?.id !== undefined && group?.owner !== undefined && group?.owner === `/api/users/${loggedUser.id}`;
+    loggedUser?.id !== undefined &&
+    group?.owner !== undefined &&
+    group?.owner === `/api/users/${loggedUser.id}`;
+
+  const loggedUserIsMember =
+    loggedUser?.id !== undefined &&
+    group?.members !== undefined &&
+    group?.members.includes(`/api/users/${loggedUser.id}`);
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`${API_URL}/api/groups/${groupId}`, { headers: { Authorization: token } });
+      const response = await axios.delete(`${API_URL}/api/groups/${groupId}`, {
+        headers: { Authorization: token },
+      });
       if (response.status !== 204) throw new Error(response.statusText);
       dispatch(deleteFromGroups(group));
-      dispatch(setToast({ severity: "success", message: "Le groupe a bien été supprimé" }));
+      dispatch(
+        setToast({
+          severity: "success",
+          message: "Le groupe a bien été supprimé",
+        })
+      );
       navigate("/groups");
     } catch (e) {
       dispatch(setToast({ severity: "error", message: e.message }));
@@ -86,7 +110,9 @@ const GroupDetails = () => {
       console.log(response);
       if (response.status !== 201) throw new Error(response.statusText);
       dispatch(addRequest(response.data));
-      dispatch(setToast({ severity: "success", message: "Une demande a été envoyée" }));
+      dispatch(
+        setToast({ severity: "success", message: "Une demande a été envoyée" })
+      );
     } catch (e) {
       dispatch(setToast({ severity: "error", message: e.message }));
       console.error(e);
@@ -95,24 +121,29 @@ const GroupDetails = () => {
 
   return (
     <Container maxWidth="xl" sx={{ my: 5 }}>
-      <Typography color="error" variant="body2" mb={2}>
-        Les threads ne s'affiche pas par groupe mais par utilisateur. Et pour qu'un utilisateur voit un thread il doit
-        etre considéré comme abonné à ce thread. L'api ne considère pas le owner du groupe comme abonné à son propre
-        groupe. Il faut donc faire une requête et l'accepter pour voir les threads.
-      </Typography>
-      <Button variant="contained" size="small" onClick={handleClick} sx={{ mr: 2 }}>
+      <Button
+        variant="contained"
+        size="small"
+        onClick={handleClick}
+        sx={{ mr: 2 }}
+      >
         Faire une requête
       </Button>
       {loggedUserIsOwner && (
         <>
-          <Button variant="contained" color="error" size="small" onClick={handleDelete}>
+          <Button
+            variant="contained"
+            color="error"
+            size="small"
+            onClick={handleDelete}
+          >
             Supprimer le groupe
           </Button>
           <GroupRequestList requests={requests} />
         </>
       )}
       <GroupMemberList members={group.members} />
-      <GroupThreadList threads={threads} />
+      {loggedUserIsMember && <GroupThreadList threads={threads} />}
     </Container>
   );
 };
