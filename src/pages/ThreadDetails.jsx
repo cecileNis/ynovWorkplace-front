@@ -1,15 +1,24 @@
-import { Button, Container, Typography, TextField, Paper } from "@mui/material";
+import {
+  Button,
+  Container,
+  Typography,
+  TextField,
+  Paper,
+  Box,
+  Link,
+} from "@mui/material";
 import axios from "axios";
 import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import { API_URL } from "../conf/api.conf";
 import { setCurrentThread } from "../store/reducers/thread";
 import { addMessage, setMessages } from "../store/reducers/message";
+import { setToast } from "../store/reducers/toast";
 
 const ThreadDetails = () => {
   const dispatch = useDispatch();
-  const { threadId } = useParams();
+  const { threadId, groupId } = useParams();
   const thread = useSelector((state) => state.thread.current);
   const messages = useSelector((state) => state.message.messages);
 
@@ -28,7 +37,9 @@ const ThreadDetails = () => {
         }
       );
       dispatch(addMessage(response.data));
-    } catch (err) {}
+    } catch (err) {
+      dispatch(setToast({ severity: "error", message: err.message }));
+    }
   };
 
   useEffect(() => {
@@ -59,20 +70,57 @@ const ThreadDetails = () => {
 
         if (messagesResponse.status !== 200)
           throw new Error(messagesResponse.statusText);
+
         dispatch(setMessages(messagesResponse.data["hydra:member"]));
-      } catch (e) {}
+      } catch (err) {
+        dispatch(setToast({ severity: "error", message: err.message }));
+      }
     })();
   }, []);
 
   return (
-    <Container maxWidth="lg">
+    <Container
+      maxWidth="lg"
+      sx={{
+        height: "50vh",
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
       <Typography variant="h4">{thread?.title}</Typography>
-      {messages.map((message) => (
-        <Paper key={message["@id"]}>
-          <Typography variant="h6">{message.owner}</Typography>
-          <Typography>{message.content}</Typography>
-        </Paper>
-      ))}
+      <Link component={RouterLink} to={`/groups/${groupId}`}>
+        Retourner à la page du groupe
+      </Link>
+      <Paper
+        sx={{
+          p: 1,
+          overflowY: "scroll",
+          minHeight: "100%",
+        }}
+      >
+        {messages.map((message) => (
+          <Box
+            sx={{
+              overflow: "hidden",
+            }}
+            key={message["@id"]}
+          >
+            <Box
+              sx={{
+                p: 1,
+                mb: 2,
+                border: "1px solid rgba(0, 0, 0, 0.2)",
+              }}
+            >
+              <Typography variant="body2" gutterBottom>
+                {message.owner} a dit :{" "}
+              </Typography>
+              <Typography sx={{ mb: 2 }}>{message.content}</Typography>
+            </Box>
+          </Box>
+        ))}
+      </Paper>
       <Paper
         sx={{
           p: 2,

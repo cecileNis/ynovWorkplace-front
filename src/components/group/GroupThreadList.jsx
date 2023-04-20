@@ -24,7 +24,7 @@ const GroupThreadList = ({ threads }) => {
         {threads.map((thread) => (
           <Paper
             key={thread["@id"]}
-            sx={{ p: 1, mb: 2 }}
+            sx={{ p: 1, mb: 2, cursor: "pointer" }}
             onClick={() =>
               navigate(
                 `/groups/${groupId}/threads/${thread["@id"].split("/")[3]}`
