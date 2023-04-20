@@ -6,6 +6,7 @@ import toastSlice from "./reducers/toast";
 import loadingSlice from "./reducers/loading";
 import requestSlice from "./reducers/request";
 import threadSlice from "./reducers/thread";
+import messageSlice from "./reducers/message";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     loading: loadingSlice,
     request: requestSlice,
     thread: threadSlice,
+    message: messageSlice,
   },
 });
