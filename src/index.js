@@ -28,12 +28,11 @@ async function retrieveUsers() {
 
 async function retrieveLoggedUser() {
   try {
-    let loggedUser = await axios.get(`${url}/api/users/9/info`, {
+    let loggedUser = await axios.get(`${url}/api/users/105/info`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("TOKEN")}` },
     });
     let user = loggedUser.data;
-    let userLogged = { nickname: user.nickname, id: user.id };
-    store.dispatch(setLoggedUser(userLogged));
+    store.dispatch(setLoggedUser(user));
   } catch (e) {}
 }
 
