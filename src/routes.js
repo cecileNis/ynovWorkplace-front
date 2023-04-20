@@ -63,12 +63,12 @@ const routes = () => [
       },
       {
         path: "logIn",
-        element: <>{GuestRoute(<Login />)}</>
+        element: <>{GuestRoute(<Login />)}</>,
       },
       {
         path: "profile",
-        element: <Profile />
-      }
+        element: <Profile />,
+      },
     ],
   },
 ];
