@@ -15,9 +15,9 @@ const Toast = () => {
       <Alert
         sx={{
           position: "fixed",
-          top: 2,
-          right: 2,
-          zIndex: 1000,
+          top: "8px",
+          right: "8px",
+          zIndex: "999999999",
         }}
         severity={data?.severity}
       >
