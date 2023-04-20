@@ -12,6 +12,7 @@ import GroupList from "./pages/GroupList";
 import GroupDetails from "./pages/GroupDetails";
 import NewThread from "./pages/NewThread";
 import NotFound from "./pages/NotFound";
+import Profile from "./pages/Profile";
 
 const Layout = () => (
   <>
