@@ -3,10 +3,12 @@ import { API_URL } from "../conf/api.conf";
 
 import React, { useState } from "react";
 import axios from "axios";
+import { useDispatch } from 'react-redux';
+import { setLoggedUser } from '../store/reducers/auth';
+import { useNavigate } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
-import { useNavigate } from "react-router-dom";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -21,10 +23,11 @@ function NewUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [nickname, setNickname] = useState("");
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
   const url = API_URL + "/api/users";
 
   const theme = createTheme();
-  const navigate = useNavigate();
 
   const onCreate = async (event) => {
     event.preventDefault();
@@ -37,8 +40,10 @@ function NewUser() {
         },
       });
       console.log(user);
-      navigate("/logIn");
-      
+      let token = await axios.post(`${url}/auth`, {email, password});
+      localStorage.setItem("TOKEN", token.data.token)
+      dispatch(setLoggedUser(user.data))
+      navigate('/profile')
     } catch (e) {
       console.log(e);
     }

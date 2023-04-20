@@ -58,8 +58,8 @@ function Header() {
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={RouterLink}
+            to="/"
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },
@@ -70,7 +70,8 @@ function Header() {
               textDecoration: "none",
             }}
           >
-            Ynov Workplace
+             Ynov Workplace
+           
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
