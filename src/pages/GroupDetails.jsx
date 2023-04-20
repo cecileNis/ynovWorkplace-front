@@ -9,8 +9,9 @@ import { deleteFromGroups, setCurrentGroup } from "../store/reducers/group";
 import GroupRequestList from "../components/group/GroupRequestList";
 import GroupMemberList from "../components/group/GroupMemberList";
 import GroupThreadList from "../components/group/GroupThreadList";
-import { addRequest, setRequests } from "../store/reducers/request";
+import { setRequests } from "../store/reducers/request";
 import { setThreads } from "../store/reducers/thread";
+import GroupAlertDialog from "../components/GroupAlertDialog";
 
 const retrieveGroup = async (groupId) => {
   try {
@@ -142,6 +143,7 @@ const GroupDetails = () => {
           <GroupRequestList requests={requests} />
         </>
       )}
+
       <GroupMemberList members={group.members} />
       {loggedUserIsMember && <GroupThreadList threads={threads} />}
     </Container>
