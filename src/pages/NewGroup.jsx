@@ -22,18 +22,34 @@ const NewGroup = () => {
     const token = `Bearer ${localStorage.getItem("TOKEN")}`;
 
     try {
-      const response = await axios.post(
+      const groupRes = await axios.post(
         url,
         { name: name.current.value, description: desc.current.value },
         { headers: { Authorization: token } }
       );
 
-      if (response.status === 401) {
-        throw new Error(response.statusText);
+      if (groupRes.status === 401) {
+        throw new Error(groupRes.statusText);
       }
 
-      dispatch(setGroups(response.data));
-      navigate(`/groups/${response.data.id}`);
+      const reqResponse = await axios.post(
+        `${API_URL}/api/group_requests`,
+        { targetGroup: groupRes.data["@id"] },
+        { headers: { Authorization: token } }
+      );
+
+      if (reqResponse.status !== 201) throw new Error(reqResponse.statusText);
+
+      const accResponse = await axios.post(
+        `${API_URL}/api/group_requests/${reqResponse.data.id}/accept`,
+        {},
+        { headers: { Authorization: token } }
+      );
+
+      if (accResponse.status !== 201) throw new Error(accResponse.statusText);
+
+      dispatch(setGroups(groupRes.data));
+      navigate(`/groups/${groupRes.data.id}`);
       dispatch(
         setToast({
           message: "Groupe créé avec succès !",

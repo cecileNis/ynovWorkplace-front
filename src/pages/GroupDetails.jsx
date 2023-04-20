@@ -9,7 +9,7 @@ import { deleteFromGroups, setCurrentGroup } from "../store/reducers/group";
 import GroupRequestList from "../components/group/GroupRequestList";
 import GroupMemberList from "../components/group/GroupMemberList";
 import GroupThreadList from "../components/group/GroupThreadList";
-import { setRequests } from "../store/reducers/request";
+import { setRequests, addRequest } from "../store/reducers/request";
 import { setThreads } from "../store/reducers/thread";
 import GroupAlertDialog from "../components/GroupAlertDialog";
 
@@ -76,6 +76,11 @@ const GroupDetails = () => {
     group?.owner !== undefined &&
     group?.owner === `/api/users/${loggedUser.id}`;
 
+  const loggedUserIsMember =
+    loggedUser?.id !== undefined &&
+    group?.members !== undefined &&
+    group?.members.includes(`/api/users/${loggedUser.id}`);
+
   const handleDelete = async () => {
     try {
       const response = await axios.delete(`${API_URL}/api/groups/${groupId}`, {
@@ -96,40 +101,35 @@ const GroupDetails = () => {
     }
   };
 
-  // const handleClick = async () => {
-  //   try {
-  //     const response = await axios.post(
-  //       `${API_URL}/api/group_requests`,
-  //       { targetGroup: group["@id"] },
-  //       { headers: { Authorization: token } }
-  //     );
-  //     console.log(response);
-  //     if (response.status !== 201) throw new Error(response.statusText);
-  //     dispatch(addRequest(response.data));
-  //     dispatch(setToast({ severity: "success", message: "Une demande a été envoyée" }));
-  //   } catch (e) {
-  //     dispatch(setToast({ severity: "error", message: e.message }));
-  //     console.error(e);
-  //   }
-  // };
- 
-  const membersId = group?.members?.includes(`/api/users/${loggedUser?.id}`);
+  const handleClick = async () => {
+    try {
+      const response = await axios.post(
+        `${API_URL}/api/group_requests`,
+        { targetGroup: group["@id"] },
+        { headers: { Authorization: token } }
+      );
+      console.log(response);
+      if (response.status !== 201) throw new Error(response.statusText);
+      dispatch(addRequest(response.data));
+      dispatch(
+        setToast({ severity: "success", message: "Une demande a été envoyée" })
+      );
+    } catch (e) {
+      dispatch(setToast({ severity: "error", message: e.message }));
+      console.error(e);
+    }
+  };
 
   return (
     <Container maxWidth="xl" sx={{ my: 5 }}>
-      <Typography color="error" variant="body2" mb={2}>
-        Les threads ne s'affiche pas par groupe mais par utilisateur. Et pour
-        qu'un utilisateur voit un thread il doit etre considéré comme abonné à
-        ce thread. L'api ne considère pas le owner du groupe comme abonné à son
-        propre groupe. Il faut donc faire une requête et l'accepter pour voir
-        les threads.
-      </Typography>
-
-      {!membersId && <GroupAlertDialog />}
-
-      {/* <Button variant="contained" size="small" onClick={handleClick} sx={{ mr: 2 }}>
+      <Button
+        variant="contained"
+        size="small"
+        onClick={handleClick}
+        sx={{ mr: 2 }}
+      >
         Faire une requête
-      </Button> */}
+      </Button>
       {loggedUserIsOwner && (
         <>
           <Button
@@ -145,7 +145,7 @@ const GroupDetails = () => {
       )}
 
       <GroupMemberList members={group.members} />
-      <GroupThreadList threads={threads} />
+      {loggedUserIsMember && <GroupThreadList threads={threads} />}
     </Container>
   );
 };
