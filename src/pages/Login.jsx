@@ -26,14 +26,15 @@ function Login() {
 
   const theme = createTheme();
 
-  const onLogin = async () => {
+  const onLogin = async (event) => {
+    event.preventDefault();
     try {
       console.log(email);
       console.log(password);
       let token = await axios.post(`${url}/auth`, { email, password });
       localStorage.setItem("TOKEN", token.data.token);
       console.log(token);
-      let loggedUser = await axios.get(`${url}/api/users/1/info`, {
+      let loggedUser = await axios.get(`${url}/api/users/9/info`, {
         headers: { Authorization: `Bearer ${token.data.token}` },
       });
       console.log(loggedUser.data);
@@ -49,22 +50,6 @@ function Login() {
 
   return (
     <>
-      {/* <TextField
-        id="outlined-basic"
-        label="Email"
-        variant="outlined"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        id="outlined-basic"
-        label="Password"
-        variant="outlined"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button onClick={onLogin}>Se connecter</Button> */}
        <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -92,6 +77,7 @@ function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -102,6 +88,7 @@ function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Button
               type="submit"
@@ -113,7 +100,7 @@ function Login() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/signIn" variant="body2">
+                <Link to="/signIn" variant="body2">
                   {"Vous n'avez pas de compte? enregistrez-vous ici"}
                 </Link>
               </Grid>

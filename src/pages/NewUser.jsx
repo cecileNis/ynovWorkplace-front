@@ -6,6 +6,7 @@ import axios from "axios";
 
 import Avatar from '@mui/material/Avatar';
 import CssBaseline from '@mui/material/CssBaseline';
+import { useNavigate } from "react-router-dom";
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -23,8 +24,10 @@ function NewUser() {
   const url = API_URL + "/api/users";
 
   const theme = createTheme();
+  const navigate = useNavigate();
 
-  const onCreate = async () => {
+  const onCreate = async (event) => {
+    event.preventDefault();
     try {
       let payload = { email, plainPassword: password, nickname };
       console.log(payload);
@@ -34,6 +37,8 @@ function NewUser() {
         },
       });
       console.log(user);
+      navigate("/logIn");
+      
     } catch (e) {
       console.log(e);
     }
@@ -41,30 +46,6 @@ function NewUser() {
 
   return (
     <>
-      {/* <TextField
-        id="outlined-basic"
-        label="Email"
-        variant="outlined"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <TextField
-        id="outlined-basic"
-        label="Nickname"
-        variant="outlined"
-        value={nickname}
-        onChange={(e) => setNickname(e.target.value)}
-      />
-      <TextField
-        id="outlined-basic"
-        label="Password"
-        variant="outlined"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button onClick={onCreate}>S'inscrire</Button> */}
-
       <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />

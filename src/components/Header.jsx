@@ -53,7 +53,7 @@ function Header() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{background: "#655560"}}>
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -121,7 +121,16 @@ function Header() {
                 component={RouterLink}
                 to={link}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" }}
+                sx={{ my: 2, color: "white", display: "block" ,fontFamily: "monospace"}}
+                onMouseOver={(e) => {
+                  e.target.style.fontWeight = "bold";
+                  e.target.style.transition = "all 0.5s ease";
+                  e.target.style.background = "transparent";
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.fontWeight = "normal";
+                  e.target.style.transition = "all 0.5s ease";
+                }}
               >
                 {key}
               </Button>
@@ -129,7 +138,7 @@ function Header() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Gestion de profil">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <AccountCircleIcon fontSize="large" sx={{ color: "white" }} />
               </IconButton>

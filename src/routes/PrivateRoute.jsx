@@ -6,6 +6,11 @@ const PrivateRoute = (Component) => {
   const loggedUser = useSelector((state) => state.auth.loggedUser);
   const loading = useSelector((state) => state.loading.value);
   if (loading) return <Loader />;
-  return loggedUser ? Component : <Navigate to="/" />;
+  if(loggedUser){
+    return Component
+  } else {
+    //setToast
+    return <Navigate to="/" />
+  }
 };
 export default PrivateRoute;

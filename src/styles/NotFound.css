@@ -38,6 +38,7 @@
 .bl_page404__link {
   display: block;
   margin: 0 auto;
+  padding:0 15px;
   width: 260px;
   height: 64px;
   box-shadow: 0 5px 0 #9c1007, inset 0 0 18px rgba(253, 60, 0, 0.75);
