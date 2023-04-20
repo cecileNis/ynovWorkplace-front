@@ -32,7 +32,7 @@ function Login() {
       let token = await axios.post(`${url}/auth`, { email, password });
       localStorage.setItem("TOKEN", token.data.token);
       console.log(token);
-      let loggedUser = await axios.get(`${url}/api/users/9/info`, {
+      let loggedUser = await axios.get(`${url}/api/users/105/info`, {
         headers: { Authorization: `Bearer ${token.data.token}` },
       });
       console.log(loggedUser.data);

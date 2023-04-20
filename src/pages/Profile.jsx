@@ -1,4 +1,4 @@
-import { Grid, Typography, Container, Box, Dialog } from "@mui/material";
+import { Grid, Typography, Container, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import AlertDialog from "../components/Dialog";
@@ -38,7 +38,6 @@ function Profile() {
                         </Box>
                     </Grid>
                 </Grid>
-
         </Container>
     );
   }
