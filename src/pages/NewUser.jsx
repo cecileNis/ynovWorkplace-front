@@ -29,7 +29,7 @@ function NewUser() {
       console.log(user);
       let token = await axios.post(`${url}/auth`, {email, password});
       localStorage.setItem("TOKEN", token.data.token)
-      dispatch(setLoggedUser(user))
+      dispatch(setLoggedUser(user.data))
       navigate('/profile')
     } catch (e) {
       console.log(e);

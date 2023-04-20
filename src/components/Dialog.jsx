@@ -29,6 +29,7 @@ export default function AlertDialog() {
                      headers: { Authorization: `Bearer ${token}`}
                     });
                 localStorage.removeItem("TOKEN");
+                setOpen(false);
                 dispatch(setLoggedUser(null));
                 navigate('/');
            } catch (e) {
