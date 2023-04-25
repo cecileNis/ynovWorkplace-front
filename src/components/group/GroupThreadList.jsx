@@ -12,12 +12,25 @@ const GroupThreadList = ({ threads }) => {
       <Typography variant="h4" sx={{ my: 5 }}>
         Fils de discussion
       </Typography>
-      <Button onClick={() => navigate(`/groups/${groupId}/new-thread`)} sx={{ mb: 5 }} variant="contained" size="small">
+      <Button
+        onClick={() => navigate(`/groups/${groupId}/new-thread`)}
+        sx={{ mb: 5 }}
+        variant="contained"
+        size="small"
+      >
         Je crée un fil de discussion
       </Button>
       <Box>
         {threads.map((thread) => (
-          <Paper key={thread["@id"]} sx={{ p: 1, mb: 2 }}>
+          <Paper
+            key={thread["@id"]}
+            sx={{ p: 1, mb: 2, cursor: "pointer" }}
+            onClick={() =>
+              navigate(
+                `/groups/${groupId}/threads/${thread["@id"].split("/")[3]}`
+              )
+            }
+          >
             {thread.title}
           </Paper>
         ))}

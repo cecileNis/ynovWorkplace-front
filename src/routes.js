@@ -10,6 +10,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import NewGroup from "./pages/NewGroup";
 import GroupList from "./pages/GroupList";
 import GroupDetails from "./pages/GroupDetails";
+import ThreadDetails from "./pages/ThreadDetails";
 import NewThread from "./pages/NewThread";
 import NotFound from "./pages/NotFound";
 import Profile from "./pages/Profile";
@@ -54,12 +55,16 @@ const routes = () => [
         element: <>{PrivateRoute(<NewThread />)}</>,
       },
       {
+        path: "groups/:groupId/threads/:threadId",
+        element: <>{PrivateRoute(<ThreadDetails />)}</>,
+      },
+      {
         path: "signIn",
         element: <>{GuestRoute(<NewUser />)}</>,
       },
       {
         path: "logIn",
-        element: <>{GuestRoute(<Login />)}</>
+        element: <>{GuestRoute(<Login />)}</>,
       },
       {
         path: "profile",

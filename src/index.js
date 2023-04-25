@@ -9,7 +9,7 @@ import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import { setUsers } from "./store/reducers/user";
 import { setLoggedUser } from "./store/reducers/auth";
-import { API_URL } from "./conf/api.conf";
+import { API_URL, INFO_ID } from "./conf/api.conf";
 import { setGroups } from "./store/reducers/group";
 import { setLoading } from "./store/reducers/loading";
 
@@ -28,12 +28,11 @@ async function retrieveUsers() {
 
 async function retrieveLoggedUser() {
   try {
-    let loggedUser = await axios.get(`${url}/api/users/9/info`, {
+    let loggedUser = await axios.get(`${url}/api/users/${INFO_ID}/info`, {
       headers: { Authorization: `Bearer ${localStorage.getItem("TOKEN")}` },
     });
     let user = loggedUser.data;
-    let userLogged = { nickname: user.nickname, id: user.id };
-    store.dispatch(setLoggedUser(userLogged));
+    store.dispatch(setLoggedUser(user));
   } catch (e) {}
 }
 
