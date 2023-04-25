@@ -30,10 +30,6 @@ const routes = () => [
         element: <Home />,
       },
       {
-        path: "*",
-        element: <NotFound />,
-      },
-      {
         path: "/userList",
         element: <UserList />,
       },
@@ -68,7 +64,11 @@ const routes = () => [
       {
         path: "profile",
         element: <Profile />
-      }
+      },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
     ],
   },
 ];

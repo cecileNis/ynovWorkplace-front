@@ -116,7 +116,7 @@ function NewUser() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/logIn" variant="body2">
+                <Link to="/logIn" variant="body2">
                  vous possédez déjà un compte ? Connectez-vous
                 </Link>
               </Grid>
