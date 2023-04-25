@@ -1,6 +1,6 @@
 import { Button, Container, Typography } from "@mui/material";
 import axios from "axios";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../conf/api.conf";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,6 @@ import GroupMemberList from "../components/group/GroupMemberList";
 import GroupThreadList from "../components/group/GroupThreadList";
 import { setRequests, addRequest } from "../store/reducers/request";
 import { setThreads } from "../store/reducers/thread";
-import GroupAlertDialog from "../components/GroupAlertDialog";
 
 const retrieveGroup = async (groupId) => {
   try {
@@ -50,6 +49,48 @@ const GroupDetails = () => {
   const navigate = useNavigate();
   const token = `Bearer ${localStorage.getItem("TOKEN")}`;
 
+  const [isFiltered, setIsFiltered] = useState(false);
+
+  const loadGroupThreads = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/api/threads`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("TOKEN")}` },
+      });
+      const data = response.data["hydra:member"];
+      const filteredData = data.filter(
+        ({ relatedGroup }) => relatedGroup === `/api/groups/${groupId}`
+      );
+      dispatch(setThreads(filteredData));
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  
+  const searchThreads = async (title, content) => {
+    if (!title && !content) {
+      setIsFiltered(false);
+      return;
+    }
+  
+    try {
+      const response = await axios.get(`${API_URL}/api/search?title=${title}&content=${content}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("TOKEN")}` },
+      });
+      const data = response.data["hydra:member"];
+      dispatch(setThreads(data));
+      setIsFiltered(true);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleReset = () => {
+    if (isFiltered) {
+      loadGroupThreads();
+      setIsFiltered(false);
+    }
+  };
+
   React.useEffect(() => {
     retrieveGroup(groupId).then((group) => dispatch(setCurrentGroup(group)));
     retrieveGroupRequests(groupId).then((group) =>
@@ -64,7 +105,7 @@ const GroupDetails = () => {
         )
       )
     );
-  }, [groupId]);
+  }, [groupId, dispatch]);
 
   const group = useSelector((state) => state.group.current);
   const requests = useSelector((state) => state.request.requests);
@@ -145,7 +186,7 @@ const GroupDetails = () => {
       )}
 
       <GroupMemberList members={group.members} />
-      {loggedUserIsMember && <GroupThreadList threads={threads} />}
+      {loggedUserIsMember && <GroupThreadList threads={threads} onSearch={searchThreads} onReset={handleReset}/>}
     </Container>
   );
 };

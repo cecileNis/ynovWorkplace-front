@@ -53,7 +53,7 @@ function Header() {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl" sx={{background: "#655560"}}>
+      <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
             variant="h6"
