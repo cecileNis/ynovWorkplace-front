@@ -15,6 +15,9 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://127.0.0.1:4001";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -38,6 +41,8 @@ function Login() {
       console.log(loggedUser.data);
       let user = loggedUser.data;
       console.log(user);
+      const socket = socketIOClient(ENDPOINT);
+      socket.emit("user login", { username: user.nickname });
       dispatch(setLoggedUser(user));
       navigate("/profile");
     } catch (e) {

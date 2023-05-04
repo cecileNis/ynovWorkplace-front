@@ -68,7 +68,7 @@ const routes = () => [
       },
       {
         path: "profile",
-        element: <Profile />
+        element: <>{PrivateRoute(<Profile />)}</>,
       },
       {
         path: "*",

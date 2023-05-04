@@ -12,8 +12,11 @@ import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
-import setLoggedUser from "../store/reducers/auth";
+import { setLoggedUser } from "../store/reducers/auth";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+
+import socketIOClient from "socket.io-client";
+const ENDPOINT = "http://127.0.0.1:4001";
 
 function Header() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -32,6 +35,9 @@ function Header() {
   const dispatch = useDispatch();
 
   const disconnect = () => {
+    const socket = socketIOClient(ENDPOINT);
+    socket.emit("user logout", { username: loggedUser.nickname });
+
     localStorage.removeItem("TOKEN");
     dispatch(setLoggedUser(null));
   };
@@ -70,8 +76,7 @@ function Header() {
               textDecoration: "none",
             }}
           >
-             Ynov Workplace
-           
+            Ynov Workplace
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -122,7 +127,12 @@ function Header() {
                 component={RouterLink}
                 to={link}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: "white", display: "block" ,fontFamily: "monospace"}}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  fontFamily: "monospace",
+                }}
                 onMouseOver={(e) => {
                   e.target.style.fontWeight = "bold";
                   e.target.style.transition = "all 0.5s ease";
@@ -164,8 +174,6 @@ function Header() {
                 key === "se déconnecter" ? (
                   <MenuItem
                     key={key}
-                    component={RouterLink}
-                    to={link}
                     onClick={() => {
                       handleCloseUserMenu();
                       disconnect();
