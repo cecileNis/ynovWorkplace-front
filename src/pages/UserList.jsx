@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Typography } from "@mui/material";
 
 export const sortUsersByNickname = (users) => {
   let newUsers = [...users];
@@ -12,6 +13,7 @@ function UserList() {
 
   return (
     <>
+      <Typography variant="h6">liste des utilisateurs</Typography>
       {users.map((user) => (
         <div>
           <Link to={`/user/${user.id}`}>{user.nickname}</Link>

@@ -41,7 +41,7 @@ function NewUser() {
         },
       });
       console.log(user);
-      let token = await axios.post(`${url}/auth`, { email, password });
+      let token = await axios.post(`${API_URL}/auth`, { email, password });
       localStorage.setItem("TOKEN", token.data.token);
       const socket = socketIOClient(ENDPOINT);
       socket.emit("user login", { username: user.data.nickname });
