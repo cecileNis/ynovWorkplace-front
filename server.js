@@ -18,6 +18,7 @@ const io = socketIo(server, {
 
 let interval;
 let users = [];
+let messages = [];
 
 io.on("connection", (socket) => {
   console.log("New client connected");
@@ -27,8 +28,7 @@ io.on("connection", (socket) => {
   interval = setInterval(() => getApiAndEmit(socket), 1000);
 
   socket.on("user login", (user) => {
-    if (!users.find(({ id }) => id === user.id))
-      users.push({ user, socketId: socket.id });
+    if (!users.find(({ id }) => id === user.id)) users.push({ user, socketId: socket.id });
     io.emit("new login", users);
   });
 
@@ -36,6 +36,17 @@ io.on("connection", (socket) => {
     users = users.filter(({ socketId }) => user.socketId === socketId);
     console.log(users);
     io.emit("new login", users);
+  });
+
+  socket.on("messages init", (data) => {
+    console.log("messages init");
+    messages = data;
+  });
+
+  socket.on("message add", (message) => {
+    messages = [...messages, message];
+    console.log(`new message : ${message}`);
+    io.emit("new message", messages);
   });
 
   socket.on("disconnect", () => {
