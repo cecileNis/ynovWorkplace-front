@@ -11,8 +11,7 @@ const userSlice = createSlice({
       state.users = action.payload;
     },
     setLoggedUsers: (state, action) => {
-      console.log(action.payload);
-      state.users = action.payload;
+      state.loggedUsers = action.payload;
     },
   },
 });

@@ -34,17 +34,15 @@ function NewUser() {
     event.preventDefault();
     try {
       let payload = { email, plainPassword: password, nickname };
-      console.log(payload);
       let user = await axios.post(url, payload, {
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log(user);
       let token = await axios.post(`${API_URL}/auth`, { email, password });
       localStorage.setItem("TOKEN", token.data.token);
       const socket = socketIOClient(ENDPOINT);
-      socket.emit("user login", { username: user.data.nickname });
+      socket.emit("user login", { id: user.data.id, username: user.data.nickname });
       dispatch(setLoggedUser(user.data));
       navigate("/profile");
     } catch (e) {
@@ -109,12 +107,7 @@ function NewUser() {
                   />
                 </Grid>
               </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 S'inscrire
               </Button>
               <Grid container justifyContent="flex-end">

@@ -19,7 +19,6 @@ async function retrieveUsers() {
   try {
     let response = await axios.get(`${url}/api/users`);
     let users = response.data["hydra:member"];
-    console.log(users);
     store.dispatch(setUsers(users));
   } catch (e) {
     store.dispatch(setUsers([]));
@@ -46,9 +45,7 @@ async function retrieveGroups() {
   }
 }
 
-Promise.all([retrieveLoggedUser(), retrieveUsers(), retrieveGroups()]).finally(
-  () => store.dispatch(setLoading(false))
-);
+Promise.all([retrieveLoggedUser(), retrieveUsers(), retrieveGroups()]).finally(() => store.dispatch(setLoading(false)));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

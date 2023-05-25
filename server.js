@@ -22,18 +22,22 @@ let messages = [];
 
 io.on("connection", (socket) => {
   console.log("New client connected");
+
+  console.log(users);
+
   if (interval) {
     clearInterval(interval);
   }
   interval = setInterval(() => getApiAndEmit(socket), 1000);
 
   socket.on("user login", (user) => {
-    if (!users.find(({ id }) => id === user.id)) users.push({ user, socketId: socket.id });
+    if (!users.find(({ id }) => id === user.id)) users.push({ ...user, socketId: socket.id });
+    console.log(users);
     io.emit("new login", users);
   });
 
   socket.on("user logout", (user) => {
-    users = users.filter(({ socketId }) => user.socketId === socketId);
+    users = users.filter(({ id }) => user.id !== id);
     console.log(users);
     io.emit("new login", users);
   });

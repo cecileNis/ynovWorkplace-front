@@ -1,8 +1,12 @@
 import { Box, Paper, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const GroupMemberList = ({ members }) => {
-  console.log();
+  const users = useSelector((state) => state.user.loggedUsers);
+
+  const usersIds = users.map(({ id }) => id);
+
   return (
     <Box component="section">
       <Typography variant="h4" sx={{ my: 5 }}>
@@ -11,7 +15,7 @@ const GroupMemberList = ({ members }) => {
       <Box>
         {members.map((user) => (
           <Paper key={user} sx={{ p: 1, mb: 2 }}>
-            {user}
+            {user} {usersIds.includes(user.id) ? "Connecté(e)" : "Déconnecté(e)"}
           </Paper>
         ))}
       </Box>
