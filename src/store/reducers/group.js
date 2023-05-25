@@ -8,7 +8,6 @@ const groupSlice = createSlice({
   },
   reducers: {
     setGroups: (state, action) => {
-      console.log(action.payload);
       let payload = action.payload;
       if (!Array.isArray(action.payload)) payload = [action.payload];
       state.groups = [...state.groups, ...payload];

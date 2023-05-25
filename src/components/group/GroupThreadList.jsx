@@ -8,7 +8,6 @@ const GroupThreadList = ({ threads, onSearch, onReset }) => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-
   const handleSearchClick = async () => {
     if (title.length > 0 || content.length > 0) {
       await onSearch(title, content);
@@ -20,14 +19,15 @@ const GroupThreadList = ({ threads, onSearch, onReset }) => {
     setContent("");
     await onReset();
   };
-
-  console.log(threads);
   return (
     <Box component="section" maxWidth="800px" mr="auto" ml="auto">
       <Typography variant="h4" sx={{ my: 5, textAlign: "center" }}>
         Fils de discussion
       </Typography>
-      <Container maxWidth="400px" sx={{ gap: "5px", mr: "auto", ml: "auto", display: "flex", justifyContent: "center" }}>
+      <Container
+        maxWidth="400px"
+        sx={{ gap: "5px", mr: "auto", ml: "auto", display: "flex", justifyContent: "center" }}
+      >
         <TextField
           value={title}
           onChange={(e) => setTitle(e.target.value)}
@@ -53,22 +53,11 @@ const GroupThreadList = ({ threads, onSearch, onReset }) => {
             justifyContent: "center",
           }}
         >
-          <Button
-            onClick={handleSearchClick}
-            variant="contained"
-            size="small"
-            sx={{ height: "40px", mb: 1 }}
-          >
+          <Button onClick={handleSearchClick} variant="contained" size="small" sx={{ height: "40px", mb: 1 }}>
             Rechercher
           </Button>
           {(title.length > 0 || content.length > 0) && (
-            <Button
-              onClick={handleCancel}
-              variant="contained"
-              color="error"
-              size="small"
-              sx={{ height: "40px" }}
-            >
+            <Button onClick={handleCancel} variant="contained" color="error" size="small" sx={{ height: "40px" }}>
               Annuler
             </Button>
           )}
@@ -88,11 +77,7 @@ const GroupThreadList = ({ threads, onSearch, onReset }) => {
           <Paper
             key={thread["@id"]}
             sx={{ p: 1, mb: 2, cursor: "pointer" }}
-            onClick={() =>
-              navigate(
-                `/groups/${groupId}/threads/${thread["@id"].split("/")[3]}`
-              )
-            }
+            onClick={() => navigate(`/groups/${groupId}/threads/${thread["@id"].split("/")[3]}`)}
           >
             {thread.title}
           </Paper>

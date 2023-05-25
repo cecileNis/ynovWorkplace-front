@@ -26,15 +26,14 @@ export default function App() {
       );
       location.state = null;
     }
-    console.log("loggedUser", loggedUser);
   }, [loggedUser, location]);
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
     socket.on("new login", (data) => {
       dispatch(setLoggedUsers(data));
+      console.log(data);
     });
-    console.log("users", loggedUsers);
   }, []);
 
   return (

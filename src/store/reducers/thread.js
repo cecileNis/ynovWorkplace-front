@@ -8,13 +8,10 @@ const threadSlice = createSlice({
   },
   reducers: {
     setThreads: (state, action) => {
-      console.log(action.payload);
       state.threads = action.payload;
     },
     deleteFromThreads: (state, action) => {
-      state.threads = state.threads.filter(
-        (thread) => thread.id !== action.payload.id
-      );
+      state.threads = state.threads.filter((thread) => thread.id !== action.payload.id);
     },
     setCurrentThread: (state, action) => {
       state.current = action.payload;
@@ -23,7 +20,6 @@ const threadSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { setThreads, deleteFromThreads, setCurrentThread } =
-  threadSlice.actions;
+export const { setThreads, deleteFromThreads, setCurrentThread } = threadSlice.actions;
 
 export default threadSlice.reducer;

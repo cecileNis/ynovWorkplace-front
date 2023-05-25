@@ -36,7 +36,7 @@ function Header() {
 
   const disconnect = () => {
     const socket = socketIOClient(ENDPOINT);
-    socket.emit("user logout", { username: loggedUser.nickname });
+    socket.emit("user logout", { id: loggedUser.id, username: loggedUser.nickname });
 
     localStorage.removeItem("TOKEN");
     dispatch(setLoggedUser(null));
@@ -109,12 +109,7 @@ function Header() {
               }}
             >
               {Object.entries(pages).map(([key, link]) => (
-                <MenuItem
-                  key={key}
-                  onClick={handleCloseNavMenu}
-                  component={RouterLink}
-                  to={link}
-                >
+                <MenuItem key={key} onClick={handleCloseNavMenu} component={RouterLink} to={link}>
                   <Typography textAlign="center">{key}</Typography>
                 </MenuItem>
               ))}
@@ -182,12 +177,7 @@ function Header() {
                     <Typography textAlign="center">{key}</Typography>
                   </MenuItem>
                 ) : (
-                  <MenuItem
-                    key={key}
-                    component={RouterLink}
-                    to={link}
-                    onClick={handleCloseUserMenu}
-                  >
+                  <MenuItem key={key} component={RouterLink} to={link} onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{key}</Typography>
                   </MenuItem>
                 )

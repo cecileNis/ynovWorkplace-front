@@ -30,19 +30,14 @@ function Login() {
   const onLogin = async (event) => {
     event.preventDefault();
     try {
-      console.log(email);
-      console.log(password);
       let token = await axios.post(`${url}/auth`, { email, password });
       localStorage.setItem("TOKEN", token.data.token);
-      console.log(token);
       let loggedUser = await axios.get(`${url}/api/users/${INFO_ID}/info`, {
         headers: { Authorization: `Bearer ${token.data.token}` },
       });
-      console.log(loggedUser.data);
       let user = loggedUser.data;
-      console.log(user);
       const socket = socketIOClient(ENDPOINT);
-      socket.emit("user login", { username: user.nickname });
+      socket.emit("user login", { id: user.id, username: user.nickname });
       dispatch(setLoggedUser(user));
       navigate("/profile");
     } catch (e) {
@@ -92,12 +87,7 @@ function Login() {
                 autoComplete="current-password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-              >
+              <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                 Se connecter
               </Button>
               <Grid container>
