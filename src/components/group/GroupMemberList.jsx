@@ -5,7 +5,9 @@ import { useSelector } from "react-redux";
 const GroupMemberList = ({ members }) => {
   const users = useSelector((state) => state.user.loggedUsers);
 
-  const usersIds = users.map(({ id }) => id);
+  const usersIds = users.map(({ id }) => `/api/users/${id}`);
+
+  console.log(members)
 
   return (
     <Box component="section">
@@ -15,7 +17,7 @@ const GroupMemberList = ({ members }) => {
       <Box>
         {members.map((user) => (
           <Paper key={user} sx={{ p: 1, mb: 2 }}>
-            {user} {usersIds.includes(user.id) ? "Connecté(e)" : "Déconnecté(e)"}
+            {user} {usersIds.includes(user) ? "Connecté(e)" : "Déconnecté(e)"}
           </Paper>
         ))}
       </Box>

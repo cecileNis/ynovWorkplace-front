@@ -42,6 +42,11 @@ io.on("connection", (socket) => {
     io.emit("new login", users);
   });
 
+  socket.on("loggedUser init", () => {
+    console.log("loggedUser init");
+    io.emit("new login", users);
+  });
+
   socket.on("messages init", (data) => {
     console.log("messages init");
     messages = data;
