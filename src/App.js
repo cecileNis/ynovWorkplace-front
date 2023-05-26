@@ -30,9 +30,13 @@ export default function App() {
 
   useEffect(() => {
     const socket = socketIOClient(ENDPOINT);
+
+    socket.emit("loggedUser init", (data) => {
+      dispatch(setLoggedUsers(data));
+    })
+
     socket.on("new login", (data) => {
       dispatch(setLoggedUsers(data));
-      console.log(data);
     });
   }, []);
 
