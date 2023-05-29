@@ -53,7 +53,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "axios": "axios/dist/axios.cjs"
+      "axios": "axios/dist/axios.js"
     }
   },
   "devDependencies": {
