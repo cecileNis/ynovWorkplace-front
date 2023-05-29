@@ -38,6 +38,14 @@ export default function App() {
     socket.on("new login", (data) => {
       dispatch(setLoggedUsers(data));
     });
+
+    socket.on("new Group", (data) => {
+      dispatch(data);
+    });
+
+    socket.on("new Thread", (data) => {
+      dispatch(data);
+    });
   }, []);
 
   return (

@@ -4,6 +4,7 @@ const socketIo = require("socket.io");
 
 const port = process.env.PORT || 4001;
 const index = require("./routes/index");
+const { newGroup } = require("./src/store/reducers/group");
 
 const app = express();
 app.use(index);
@@ -62,6 +63,14 @@ io.on("connection", (socket) => {
         console.log("Client disconnect");
         users = users.filter(user => socket.id !== user.socketId)
         console.log(users)
+        clearInterval(interval);
+    });
+    socket.on("send group", (group) => {
+        io.emit("new group", group);
+        clearInterval(interval);
+    });
+    socket.on("send Threads", (thread) => {
+        io.emit("new Threads", thread);
         clearInterval(interval);
     });
 });
