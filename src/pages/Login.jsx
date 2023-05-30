@@ -90,7 +90,7 @@ function Login() {
                                 autoComplete="current-password"
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
+                            <Button data-testid="submit-login" type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
                                 Se connecter
                             </Button>
                             <Grid container>
