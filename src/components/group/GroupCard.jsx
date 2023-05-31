@@ -6,6 +6,7 @@ const GroupCard = ({ group, img }) => {
 
   return (
     <Paper
+      data-testid={group.name}
       onClick={() => navigate(`/groups/${group["@id"].split("/")[3]}`)}
       sx={{
         textAlign: "center",

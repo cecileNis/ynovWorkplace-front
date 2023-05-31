@@ -111,7 +111,7 @@ function NewUser() {
                                     />
                                 </Grid>
                             </Grid>
-                            <Button type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
+                            <Button data-testid="submit-register"  type="submit" fullWidth variant="contained" sx={{mt: 3, mb: 2}}>
                                 S'inscrire
                             </Button>
                             <Grid container justifyContent="flex-end">

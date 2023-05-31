@@ -118,6 +118,7 @@ function Header() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {Object.entries(pages).map(([key, link]) => (
               <Button
+                data-testid={key}
                 key={key}
                 component={RouterLink}
                 to={link}
@@ -145,13 +146,14 @@ function Header() {
 
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Gestion de profil">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+              <IconButton data-testid="settings-menu" onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <AccountCircleIcon fontSize="large" sx={{ color: "white" }} />
               </IconButton>
             </Tooltip>
             <Menu
               sx={{ mt: "45px" }}
               id="menu-appbar"
+              
               anchorEl={anchorElUser}
               anchorOrigin={{
                 vertical: "top",
@@ -168,6 +170,7 @@ function Header() {
               {Object.entries(settings).map(([key, link]) =>
                 key === "se déconnecter" ? (
                   <MenuItem
+                    data-testid={key}
                     key={key}
                     onClick={() => {
                       handleCloseUserMenu();
@@ -177,7 +180,7 @@ function Header() {
                     <Typography textAlign="center">{key}</Typography>
                   </MenuItem>
                 ) : (
-                  <MenuItem key={key} component={RouterLink} to={link} onClick={handleCloseUserMenu}>
+                  <MenuItem data-testid={key} key={key} component={RouterLink} to={link} onClick={handleCloseUserMenu}>
                     <Typography textAlign="center">{key}</Typography>
                   </MenuItem>
                 )
