@@ -19,7 +19,7 @@ const GroupList = () => {
         Échangez avec votre communauté
       </Typography>
       {loggedUser && (
-        <Button onClick={() => navigate("/groups/create")} sx={{ mb: 5 }} variant="contained" size="small">
+        <Button data-testid="create-group" onClick={() => navigate("/groups/create")} sx={{ mb: 5 }} variant="contained" size="small">
           Je crée un groupe de discussion
         </Button>
       )}

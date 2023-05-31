@@ -83,15 +83,16 @@ const NewGroup = () => {
           flexDirection: "column",
         }}
       >
-        <TextField sx={{ mb: 2 }} inputRef={name} label="Nom du groupe" />
+        <TextField name="groupe-name" sx={{ mb: 2 }} inputRef={name} label="Nom du groupe" />
         <TextField
+          data-testid="groupe-description"
           sx={{ mb: 2 }}
           inputRef={desc}
           label="Description du groupe"
           multiline
           rows={4}
         />
-        <Button type="submit">Créer le groupe</Button>
+        <Button data-testid="submit-create-group" type="submit">Créer le groupe</Button>
       </Box>
     </Container>
   );

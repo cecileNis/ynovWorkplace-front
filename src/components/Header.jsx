@@ -118,6 +118,7 @@ function Header() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {Object.entries(pages).map(([key, link]) => (
               <Button
+                data-testid={key}
                 key={key}
                 component={RouterLink}
                 to={link}

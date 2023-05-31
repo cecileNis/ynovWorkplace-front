@@ -14,9 +14,6 @@ test(" create an account", async ({ page }) => {
         page.waitForLoadState('networkidle')
     ]);
 
-
-    // await page.pause();
-
     const url = await page.url();
 
     expect(url).toMatch(/.*profile/);

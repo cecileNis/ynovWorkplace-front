@@ -16,7 +16,7 @@ function UserList() {
       <Typography variant="h6">liste des utilisateurs</Typography>
       {users.map((user) => (
         <div>
-          <Link to={`/user/${user.id}`}>{user.nickname}</Link>
+          <Link data-testid={user.nickname} to={`/user/${user.id}`}>{user.nickname}</Link>
         </div>
       ))}
     </>
